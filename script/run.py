@@ -25,7 +25,7 @@ import argparse
 
 sys.path.append('../../')
 
-from bp_challenge.src.engine import google_query as gq, bing_query as bq
+from bp_challenge.src.engine import google_query as gq, bing_query as bq, engine_query as eq
 from bp_challenge.src.query import round_robin_feed as rr, weighted_random_feed as wr, \
     unique_url_feed as uu, maximum_token_feed as mt
 import bp_challenge.src.data_source.engine_source as es
@@ -42,8 +42,8 @@ def get_strategy(token, data_sources):
 
 def main(args):
 
-    engines = [gq.GoogleQuery().submit_query(args.query),
-               bq.BingQuery(count=args.count).submit_query(args.query)]
+    engines = [eq.Handle(x=gq.GoogleQuery).submit_query(args.query),
+               eq.Handle(x=bq.BingQuery,count=args.count).submit_query(args.query)]
 
     data_sources = [es.EngineSource(e) for e in engines]
     get_strategy(args.strategy, data_sources).process()

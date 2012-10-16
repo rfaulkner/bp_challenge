@@ -3,6 +3,7 @@ __author__ = 'ryan faulkner'
 __date__ = "10/15/2012"
 __license__ = "GPL (version 2 or later)"
 
+
 class EngineQuery:
 
     """ Execute query on Generic search engine. Singleton class for executing queries. """
@@ -12,9 +13,12 @@ class EngineQuery:
     _count = 10
     __instance = None
 
-    def __init__( self ):
-
-        if EngineQuery.__instance:
+    def __init__( self , **kwargs):
+        """
+            Ensures that a single instance exists for each class.  Throwing an exception of the existing class
+            instance when __instnce != None type ensures that only one instance is created
+        """
+        if self.__class__.__instance:
             raise self.__class__.__instance
         self.__class__.__instance = self
 
@@ -30,3 +34,12 @@ class EngineQuery:
             @return - return a generator containing the query results
         """
         raise NotImplementedError
+
+
+def Handle(x = EngineQuery,**kwargs):
+    """ Handles object reference for EngineQuery Singleton and subclasses """
+    try:
+        single = x(**kwargs)
+    except EngineQuery, s:
+        single = s
+    return single

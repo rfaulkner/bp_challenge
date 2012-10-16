@@ -18,10 +18,10 @@ logging.basicConfig(level=logging.INFO, stream=sys.stderr, format='%(asctime)s %
 class GoogleQuery(eq.EngineQuery):
     """ retrieve results from Google search engine API """
 
-    def __init__(self):
+    def __init__(self, **kwargs):
         self._api_ref = 'https://www.googleapis.com/customsearch/v1?key=%(api_key)s&cx=%(engine_id)s' \
                         '&q=%(query_tokens)s&alt=json'
-        eq.EngineQuery.__init__(self)
+        eq.EngineQuery.__init__(self, **kwargs)
 
     def __str__(self):
         return "Google search engine API wrapper."
